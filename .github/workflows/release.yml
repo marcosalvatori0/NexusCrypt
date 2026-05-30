@@ -55,69 +55,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__ # Prende la versione automaticamente da tauri.conf.json
-          releaseName: "NexusCrypt v__VERSION__"
-          releaseBody: "🚀 New automated compilation of NexusCrypt for macOS, Windows, and Linux."
-          releaseDraft: true
-          prerelease: false
-          args: ${{ matrix.args }}name: "Publish Release"
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  publish-tauri:
-    permissions:
-      contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: "macos-latest"
-            args: "--target aarch64-apple-darwin"
-          - platform: "ubuntu-22.04"
-            args: ""
-          - platform: "windows-latest"
-            args: ""
-
-    runs-on: ${{ matrix.platform }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node_modules-cache: "npm"
-          node-version: 20
-
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin' || '' }}
-
-      - name: Rust cache
-        uses: swatinem/rust-cache@v2
-        with:
-          workspaces: "./src-tauri -> target"
-
-      - name: Install Linux dependencies (Ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
-
-      - name: Install frontend dependencies
-        run: npm install
-
-      - name: Build and Publish with Tauri Action
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: v__VERSION__ # Prende la versione automaticamente da tauri.conf.json
+          tagName: "v__VERSION__"
           releaseName: "NexusCrypt v__VERSION__"
           releaseBody: "🚀 New automated compilation of NexusCrypt for macOS, Windows, and Linux."
           releaseDraft: true
