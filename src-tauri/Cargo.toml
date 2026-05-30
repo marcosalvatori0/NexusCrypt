@@ -1,0 +1,42 @@
+[package]
+name = "nexuscrypt"
+version = "1.0.0"
+description = "NexusCrypt – Military-grade file encryption"
+authors = ["NexusCrypt Team"]
+edition = "2021"
+
+[lib]
+name = "nexuscrypt_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri           = { version = "2", features = [] }
+tauri-plugin-dialog  = "2"
+tauri-plugin-opener  = "2"
+
+# Cryptography
+chacha20poly1305 = { version = "0.10", features = ["std", "stream"] }
+argon2           = { version = "0.5", features = ["std"] }
+blake3           = "1.5"
+rand             = "0.8"
+
+# Zero-knowledge memory safety
+zeroize = { version = "1.7", features = ["derive"] }
+
+# Serialisation
+serde      = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Error handling & IO
+anyhow   = "1"
+tokio    = { version = "1", features = ["sync"] }
+
+[profile.release]
+opt-level     = 3
+lto           = true
+codegen-units = 1
+panic         = "abort"
+strip         = true

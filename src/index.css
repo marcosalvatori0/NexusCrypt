@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #080c10;
+  color: #e2e8f0;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e2a38; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #00f5d4; }
+
+/* ── Glassmorphism card ── */
+.glass {
+  background: rgba(14,18,24,0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30,42,56,0.8);
+  border-radius: 16px;
+}
+
+/* ── Neon glow button ── */
+.btn-primary {
+  @apply relative inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-lg font-semibold text-nx-bg bg-nx-cyan transition-all duration-200 text-sm;
+  box-shadow: 0 0 16px rgba(0,245,212,0.3);
+}
+.btn-primary:hover {
+  @apply brightness-110 scale-[1.02];
+  box-shadow: 0 0 28px rgba(0,245,212,0.5);
+}
+.btn-primary:active { @apply scale-95; }
+.btn-primary:disabled {
+  @apply opacity-40 cursor-not-allowed scale-100;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg font-medium text-nx-cyan border border-nx-border bg-nx-surface2 transition-all duration-200 text-sm;
+}
+.btn-secondary:hover {
+  @apply border-nx-cyan bg-nx-surface;
+  box-shadow: 0 0 12px rgba(0,245,212,0.15);
+}
+.btn-secondary:active { @apply scale-95; }
+.btn-secondary:disabled { @apply opacity-40 cursor-not-allowed; }
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg font-medium text-nx-red border border-nx-border bg-nx-surface2 transition-all duration-200 text-sm;
+}
+.btn-danger:hover { @apply border-nx-red; box-shadow: 0 0 12px rgba(239,68,68,0.2); }
+
+/* ── Input ── */
+.input-field {
+  @apply w-full px-3 py-2 rounded-lg bg-nx-surface border border-nx-border text-nx-text placeholder-nx-muted font-mono text-[13px] transition-all duration-200 outline-none;
+}
+.input-field:focus {
+  @apply border-nx-cyan;
+  box-shadow: 0 0 0 3px rgba(0,245,212,0.08);
+}
+
+/* ── Tab nav ── */
+.tab-item {
+  @apply relative px-3 py-1.5 rounded-md text-[13px] font-medium text-nx-muted transition-all duration-200 cursor-pointer flex items-center gap-1.5;
+}
+.tab-item.active {
+  @apply text-nx-cyan bg-nx-surface2;
+  box-shadow: 0 0 14px rgba(0,245,212,0.12);
+}
+.tab-item:not(.active):hover { @apply text-nx-text bg-nx-surface; }
+
+/* ── Drop zone ── */
+.dropzone {
+  @apply relative flex flex-col items-center justify-center rounded-xl border border-dashed border-nx-border bg-nx-surface2 transition-all duration-300 cursor-pointer;
+  min-height: 140px;
+}
+.dropzone:hover, .dropzone.drag-over {
+  @apply border-nx-cyan bg-nx-surface;
+  box-shadow: 0 0 40px rgba(0,245,212,0.12) inset, 0 0 24px rgba(0,245,212,0.08);
+}
+.dropzone.drag-over::after {
+  content: '';
+  @apply absolute inset-0 rounded-2xl;
+  background: radial-gradient(ellipse at center, rgba(0,245,212,0.08) 0%, transparent 70%);
+}
+
+/* ── Progress bar ── */
+.progress-track {
+  @apply w-full h-2 rounded-full bg-nx-border overflow-hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #009e88, #00f5d4, #009e88);
+  background-size: 200% 100%;
+  transition: width 0.2s ease;
+  animation: shimmer 2s linear infinite;
+}
+
+/* ── Status badge ── */
+.badge-protected {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-nx-green bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.2)];
+}
+.badge-unlocked {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-nx-amber bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.2)];
+}
+
+/* ── Toast notification ── */
+.toast {
+  @apply fixed top-3 right-3 z-50 flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium shadow-2xl animate-slide-up;
+  min-width: 240px;
+  max-width: 340px;
+}
+.toast.success { @apply bg-[rgba(34,197,94,0.15)] border border-[rgba(34,197,94,0.3)] text-nx-green; }
+.toast.error   { @apply bg-[rgba(239,68,68,0.15)] border border-[rgba(239,68,68,0.3)] text-nx-red; }
+.toast.info    { @apply bg-[rgba(0,245,212,0.1)] border border-[rgba(0,245,212,0.25)] text-nx-cyan; }
+
+/* ── Hex animation ── */
+.hex-grid {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.03;
+}
